@@ -41,7 +41,7 @@ Ensure you have Node.js installed on your machine.
 
 1. **Clone the repository** and navigate to the project folder:
    ```bash
-   cd finPay
+   cd finLens
    ```
 
 2. **Install dependencies**:
