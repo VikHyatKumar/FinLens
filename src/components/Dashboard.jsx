@@ -35,7 +35,7 @@ function CustomTooltip({ active, payload, label }) {
 }
 
 export default function Dashboard() {
-  const { stats, categoryBreakdown, transactions } = useApp();
+  const { stats, categoryBreakdown, monthlyData } = useApp();
 
   const cards = [
     { label: 'Net Balance', value: stats.balance, icon: balIcon, colorClass: 'card-green', iconClass: 'bg-accent/10 text-accent' },
@@ -44,18 +44,10 @@ export default function Dashboard() {
     { label: 'Transactions', value: stats.count, icon: listIcon, colorClass: 'card-amber', iconClass: 'bg-accent3/10 text-accent3', isCount: true },
   ];
 
-  const sorted = [...transactions].sort((a, b) => new Date(a.date) - new Date(b.date));
-  const monthly = {};
-  sorted.forEach(t => {
-    const m = t.date.slice(0, 7);
-    if (!monthly[m]) monthly[m] = { inc: 0, exp: 0 };
-    if (t.type === 'income') monthly[m].inc += t.amount;
-    else monthly[m].exp += t.amount;
-  });
   let running = 0;
-  const chartData = Object.keys(monthly).sort().map(m => {
-    running += monthly[m].inc - monthly[m].exp;
-    return { name: m, Balance: parseFloat(running.toFixed(2)), Income: parseFloat(monthly[m].inc.toFixed(2)) };
+  const chartData = monthlyData.keys.map(m => {
+    running += monthlyData.data[m].inc - monthlyData.data[m].exp;
+    return { name: m, Balance: parseFloat(running.toFixed(2)), Income: parseFloat(monthlyData.data[m].inc.toFixed(2)) };
   });
 
   const totalSpent = categoryBreakdown.reduce((s, c) => s + c[1], 0);
