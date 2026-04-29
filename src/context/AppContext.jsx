@@ -2,7 +2,7 @@ import { createContext, useContext, useState, useMemo, useCallback, useEffect } 
 
 const AppContext = createContext();
 
-const API = 'http://localhost:5000/api';
+const API = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
 
 // Map backend document shape → frontend shape
 const normalize = (t) => ({
